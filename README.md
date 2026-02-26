@@ -17,8 +17,8 @@ All Gitea state lives in `~/.local/share/matcha/gitea/` — a single directory t
 
 ## Prerequisites
 
-- Podman + podman-compose (or Docker + Docker Compose)
-- A Tailscale account and an auth key — generate one at https://login.tailscale.com/admin/settings/keys (use **reusable + ephemeral** so nodes re-register cleanly on new hosts)
+- [Podman](https://podman.io/) + [podman-compose](https://github.com/containers/podman-compose) (or Docker + Docker Compose)
+- A [Tailscale](https://tailscale.com) account and an auth key — generate one at https://login.tailscale.com/admin/settings/keys (use **reusable + ephemeral** so nodes re-register cleanly on new hosts)
 - [restic](https://restic.net) for backup and restore
 - [just](https://github.com/casey/just) task runner (optional but recommended)
 
