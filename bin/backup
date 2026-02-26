@@ -5,6 +5,24 @@ DATA_DIR="${HOME}/.local/share/matcha/gitea"
 
 IFS=',' read -ra REPOS <<< "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY in .env}"
 
+# Stop Gitea for a consistent SQLite snapshot
+if systemctl --user is-active gitea-server.service &>/dev/null; then
+    RUNTIME=systemd
+    echo "Stopping gitea-server.service..."
+    systemctl --user stop gitea-server.service
+else
+    RUNTIME=podman
+    echo "Stopping matcha-gitea container..."
+    podman stop matcha-gitea
+fi
+
+trap 'echo "Restarting Gitea...";
+if [ "$RUNTIME" = systemd ]; then
+    systemctl --user start gitea-server.service;
+else
+    podman start matcha-gitea;
+fi' EXIT
+
 for repo in "${REPOS[@]}"; do
     repo="${repo// /}"
     echo "=== Backing up to: $repo ==="
