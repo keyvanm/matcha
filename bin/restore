@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+IFS=',' read -ra REPOS <<< "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY in .env}"
+REPO="${REPOS[0]// /}"
+
+echo "=== Restoring from: $REPO ==="
+restic -r "$REPO" restore latest --target /

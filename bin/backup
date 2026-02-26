@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DATA_DIR="${HOME}/.local/share/matcha/gitea"
+
+IFS=',' read -ra REPOS <<< "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY in .env}"
+
+for repo in "${REPOS[@]}"; do
+    repo="${repo// /}"
+    echo "=== Backing up to: $repo ==="
+    restic -r "$repo" backup "$DATA_DIR"
+done

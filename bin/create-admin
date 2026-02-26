@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+podman exec -it --user git matcha-gitea gitea admin user create \
+    --admin \
+    --username "${1:?Usage: bin/create-admin <username> <email>}" \
+    --email    "${2:?Usage: bin/create-admin <username> <email>}" \
+    --password "$(read -rsp 'Password: ' pw; echo >&2; printf '%s' "$pw")"
