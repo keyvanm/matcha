@@ -50,8 +50,8 @@ Copy `.env.example` to `.env` and fill in all required values:
 
 ```bash
 TS_AUTHKEY=tskey-auth-...           # reusable + ephemeral key from Tailscale admin panel
-GITEA__server__DOMAIN=gitea.your-tailnet.ts.net
-GITEA__server__ROOT_URL=https://gitea.your-tailnet.ts.net/
+GITEA__server__DOMAIN=matcha.your-tailnet.ts.net
+GITEA__server__ROOT_URL=https://matcha.your-tailnet.ts.net/
 RESTIC_REPOSITORY=/mnt/backup/matcha   # see below for multi-destination
 RESTIC_PASSWORD=your-strong-encryption-password
 ```
