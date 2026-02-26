@@ -20,6 +20,12 @@ AddCapability=NET_ADMIN
 AddCapability=SYS_MODULE
 SecurityLabelDisable=true
 
+HealthCmd=tailscale status
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=30s
+
 [Service]
 Restart=always
 TimeoutStartSec=60

@@ -13,6 +13,12 @@ Environment=GITEA__database__DB_TYPE=sqlite3
 
 Volume=%h/.local/share/matcha/gitea:/data:Z,U
 
+HealthCmd=curl -fSs http://localhost:3000/api/healthz
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=30s
+
 [Service]
 Restart=always
 

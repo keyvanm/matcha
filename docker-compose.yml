@@ -11,6 +11,12 @@ services:
       - GITEA__database__DB_TYPE=sqlite3
     volumes:
       - ${HOME}/.local/share/matcha/gitea:/data:Z,U
+    healthcheck:
+      test: ["CMD", "curl", "-fSs", "http://localhost:3000/api/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     restart: unless-stopped
 
   tailscale:
@@ -31,4 +37,10 @@ services:
       - SYS_MODULE
     security_opt:
       - label:disable
+    healthcheck:
+      test: ["CMD", "tailscale", "status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     restart: unless-stopped
