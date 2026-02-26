@@ -5,4 +5,6 @@ IFS=',' read -ra REPOS <<< "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY in .env}"
 REPO="${REPOS[0]// /}"
 
 echo "=== Restoring from: $REPO ==="
+# --target / because restic restores to original absolute paths (e.g. ~/.local/share/matcha/gitea/)
+echo "    Restoring to original paths under ${HOME}/.local/share/matcha/gitea/"
 restic -r "$REPO" restore latest --target /
