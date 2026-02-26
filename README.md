@@ -11,7 +11,7 @@ Runs [Gitea](https://gitea.com) in Podman, with Tailscale as a network sidecar t
 
 ## How it works
 
-Gitea and a Tailscale sidecar run in a shared pod (Podman Quadlets on Linux, Compose on macOS). Gitea's network is owned entirely by Tailscale — it's unreachable from anywhere except your tailnet. Tailscale Serve terminates HTTPS and proxies to Gitea on `localhost:3000`. SSH works on port 22 through the same shared network namespace.
+Gitea and a Tailscale sidecar run in a shared pod (Podman Quadlets where available, Compose elsewhere). Gitea's network is owned entirely by Tailscale — it's unreachable from anywhere except your tailnet. Tailscale Serve terminates HTTPS and proxies to Gitea on `localhost:3000`. SSH works on port 22 through the same shared network namespace.
 
 All Gitea state lives in `~/.local/share/matcha/gitea/` — a single directory that restic snapshots for backup and restore.
 
