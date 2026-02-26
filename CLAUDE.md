@@ -74,7 +74,7 @@ Initialize each restic repo once before first use:
 restic -r /mnt/backup/matcha init
 ```
 
-`bin/backup` backs up `~/.local/share/matcha/gitea/` to all configured destinations. `bin/restore` restores from the first destination only.
+`bin/backup` stops Gitea for a consistent SQLite snapshot, backs up `~/.local/share/matcha/gitea/` to all configured destinations, then restarts Gitea. `bin/restore` restores from the first destination only.
 
 ```bash
 just backup

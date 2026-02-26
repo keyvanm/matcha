@@ -86,6 +86,8 @@ Then back up manually, or let the daily timer handle it (Quadlets only):
 just backup
 ```
 
+Backups briefly stop Gitea for a consistent SQLite snapshot, then restart it automatically.
+
 ## Restore / Migrate to a new host
 
 1. Ensure all [prerequisites](#prerequisites) are installed on the new host
