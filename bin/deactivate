@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+QUADLET_DIR="${HOME}/.config/containers/systemd"
+SYSTEMD_DIR="${HOME}/.config/systemd/user"
+
+systemctl --user disable --now gitea-backup.timer || true
+systemctl --user disable --now gitea-tailscale.service gitea-server.service gitea-pod.service || true
+
+for f in "$REPO"/quadlet/*.pod "$REPO"/quadlet/*.container; do
+    rm -f "$QUADLET_DIR/$(basename "$f")"
+done
+
+for f in "$REPO"/quadlet/*.service "$REPO"/quadlet/*.timer; do
+    rm -f "$SYSTEMD_DIR/$(basename "$f")"
+done
+
+systemctl --user daemon-reload
+
+echo "Gitea stopped and uninstalled."

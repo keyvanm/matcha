@@ -1,0 +1,11 @@
+[Unit]
+Description=Matcha pod (Tailscale-secured)
+
+[Pod]
+HostName=matcha
+# Uncomment for local debug access (equivalent to docker-compose.local.yml)
+#PublishPort=3000:3000
+#PublishPort=2222:22
+
+[Install]
+WantedBy=default.target

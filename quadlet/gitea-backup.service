@@ -1,0 +1,11 @@
+[Unit]
+Description=Matcha backup service
+After=gitea-server.service
+
+[Service]
+Type=oneshot
+ExecStart=__REPO__/bin/backup
+EnvironmentFile=__REPO__/.env
+
+[Install]
+WantedBy=default.target

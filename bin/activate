@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+QUADLET_DIR="${HOME}/.config/containers/systemd"
+SYSTEMD_DIR="${HOME}/.config/systemd/user"
+
+mkdir -p "$QUADLET_DIR" "$SYSTEMD_DIR"
+mkdir -p "${HOME}/.local/share/matcha/gitea"
+mkdir -p "${HOME}/.local/share/matcha/tailscale"
+
+for f in "$REPO"/quadlet/*.pod "$REPO"/quadlet/*.container; do
+    sed "s|__REPO__|$REPO|g" "$f" > "$QUADLET_DIR/$(basename "$f")"
+    echo "Installed: $(basename "$f")"
+done
+
+for f in "$REPO"/quadlet/*.service "$REPO"/quadlet/*.timer; do
+    sed "s|__REPO__|$REPO|g" "$f" > "$SYSTEMD_DIR/$(basename "$f")"
+    echo "Installed: $(basename "$f")"
+done
+
+systemctl --user daemon-reload
+systemctl --user enable --now gitea-tailscale.service gitea-server.service
+systemctl --user enable --now gitea-backup.timer
+
+echo "Gitea is running. Backups scheduled daily."
