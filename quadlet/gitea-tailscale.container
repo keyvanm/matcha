@@ -3,7 +3,7 @@ Description=Tailscale sidecar for Matcha
 After=network-online.target
 
 [Container]
-Image=tailscale/tailscale:latest
+Image=tailscale/tailscale:v1.94
 ContainerName=matcha-tailscale
 Pod=matcha.pod
 

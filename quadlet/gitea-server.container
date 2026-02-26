@@ -3,7 +3,7 @@ Description=Matcha gitea server
 After=gitea-tailscale.service
 
 [Container]
-Image=gitea/gitea:latest
+Image=gitea/gitea:1.25
 ContainerName=matcha-gitea
 Pod=matcha.pod
 
