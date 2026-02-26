@@ -4,18 +4,25 @@ set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 QUADLET_DIR="${HOME}/.config/containers/systemd"
 SYSTEMD_DIR="${HOME}/.config/systemd/user"
+ENV_DIR="${HOME}/.config/matcha/env"
 
-mkdir -p "$QUADLET_DIR" "$SYSTEMD_DIR"
+mkdir -p "$QUADLET_DIR" "$SYSTEMD_DIR" "$ENV_DIR"
 mkdir -p "${HOME}/.local/share/matcha/gitea"
 mkdir -p "${HOME}/.local/share/matcha/tailscale"
 
+# Generate per-service env files from .env
+grep -E '^GITEA__' "$REPO/.env" > "$ENV_DIR/gitea-server.env"
+grep -E '^TS_AUTHKEY=' "$REPO/.env" > "$ENV_DIR/gitea-tailscale.env"
+grep -E '^(RESTIC_|AWS_)' "$REPO/.env" > "$ENV_DIR/gitea-backup.env"
+echo "Generated per-service env files in $ENV_DIR"
+
 for f in "$REPO"/quadlet/*.pod "$REPO"/quadlet/*.container; do
-    sed "s|__REPO__|$REPO|g" "$f" > "$QUADLET_DIR/$(basename "$f")"
+    sed -e "s|__REPO__|$REPO|g" -e "s|__ENV_DIR__|$ENV_DIR|g" "$f" > "$QUADLET_DIR/$(basename "$f")"
     echo "Installed: $(basename "$f")"
 done
 
 for f in "$REPO"/quadlet/*.service "$REPO"/quadlet/*.timer; do
-    sed "s|__REPO__|$REPO|g" "$f" > "$SYSTEMD_DIR/$(basename "$f")"
+    sed -e "s|__REPO__|$REPO|g" -e "s|__ENV_DIR__|$ENV_DIR|g" "$f" > "$SYSTEMD_DIR/$(basename "$f")"
     echo "Installed: $(basename "$f")"
 done
 

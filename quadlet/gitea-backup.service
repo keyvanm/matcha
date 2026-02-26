@@ -5,7 +5,7 @@ After=gitea-server.service
 [Service]
 Type=oneshot
 ExecStart=__REPO__/bin/backup
-EnvironmentFile=__REPO__/.env
+EnvironmentFile=__ENV_DIR__/gitea-backup.env
 
 [Install]
 WantedBy=default.target

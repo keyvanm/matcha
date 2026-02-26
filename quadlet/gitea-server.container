@@ -7,7 +7,7 @@ Image=gitea/gitea:1.25
 ContainerName=matcha-gitea
 Pod=matcha.pod
 
-EnvironmentFile=__REPO__/.env
+EnvironmentFile=__ENV_DIR__/gitea-server.env
 Environment=GITEA__security__INSTALL_LOCK=true
 Environment=GITEA__database__DB_TYPE=sqlite3
 

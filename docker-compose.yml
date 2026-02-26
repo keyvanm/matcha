@@ -5,10 +5,11 @@ services:
     network_mode: service:tailscale
     depends_on:
       - tailscale
-    env_file: .env
     environment:
       - GITEA__security__INSTALL_LOCK=true
       - GITEA__database__DB_TYPE=sqlite3
+      - GITEA__server__DOMAIN=${GITEA__server__DOMAIN}
+      - GITEA__server__ROOT_URL=${GITEA__server__ROOT_URL}
     volumes:
       - ${HOME}/.local/share/matcha/gitea:/data:Z,U
     healthcheck:

@@ -7,7 +7,7 @@ Image=tailscale/tailscale:v1.94
 ContainerName=matcha-tailscale
 Pod=matcha.pod
 
-EnvironmentFile=__REPO__/.env
+EnvironmentFile=__ENV_DIR__/gitea-tailscale.env
 Environment=TS_STATE_DIR=/var/lib/tailscale
 Environment=TS_SERVE_CONFIG=/config/tailscale-serve.json
 Environment=TS_USERSPACE=false
