@@ -5,6 +5,7 @@ Private Git hosting on your own infrastructure, accessible only over [Tailscale]
 Runs [Gitea](https://gitea.com) in Podman, with Tailscale as a network sidecar that handles authentication, HTTPS (via Tailscale Serve), and SSH — zero extra infra required. Designed to be portable: snapshot with restic, restore on a new host, and everything comes back at the same Tailscale address.
 
 **Good for:**
+
 - Startups and small teams wanting a private GitHub alternative under their own control
 - Individuals who want self-hosted Git without exposing anything to the internet
 
@@ -34,7 +35,7 @@ TS_AUTHKEY=tskey-auth-...
 GITEA__server__DOMAIN=matcha.your-tailnet.ts.net
 GITEA__server__ROOT_URL=https://matcha.your-tailnet.ts.net/
 RESTIC_REPOSITORY=/mnt/backup/matcha
-RESTIC_PASSWORD=...
+RESTIC_PASSWORD=your-strong-encryption-password
 ```
 
 `GITEA__server__DOMAIN` and `GITEA__server__ROOT_URL` are required for Gitea to generate correct clone URLs and suppress configuration warnings.
@@ -42,11 +43,13 @@ RESTIC_PASSWORD=...
 ## Start
 
 **macOS (or any host with Compose):**
+
 ```bash
 just up
 ```
 
 **Linux — systemd-native via Podman Quadlets:**
+
 ```bash
 just activate
 ```
@@ -85,13 +88,14 @@ just backup
 
 ## Restore / Migrate to a new host
 
-1. Clone this repo on the new host
-2. Copy `.env` or create one from `.env.example`
-3. Restore data:
+1. Ensure all [prerequisites](#prerequisites) are installed on the new host
+2. Clone this repo on the new host
+3. Copy `.env` or create one from `.env.example`
+4. Restore data:
    ```bash
    just restore
    ```
-4. Start:
+5. Start:
    ```bash
    just activate   # Linux
    just up         # macOS

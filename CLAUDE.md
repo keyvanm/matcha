@@ -29,6 +29,7 @@ just restore
 ### Local debug access (Linux)
 
 Uncomment `PublishPort` lines in [quadlet/matcha.pod](quadlet/matcha.pod), then:
+
 ```bash
 systemctl --user daemon-reload && systemctl --user restart gitea-pod.service
 ```
@@ -52,7 +53,7 @@ TS_AUTHKEY=tskey-auth-...           # reusable + ephemeral key from Tailscale ad
 GITEA__server__DOMAIN=gitea.your-tailnet.ts.net
 GITEA__server__ROOT_URL=https://gitea.your-tailnet.ts.net/
 RESTIC_REPOSITORY=/mnt/backup/matcha   # see below for multi-destination
-RESTIC_PASSWORD=...
+RESTIC_PASSWORD=your-strong-encryption-password
 ```
 
 Use a **reusable + ephemeral** Tailscale auth key so the node re-registers cleanly on each new host.
@@ -68,6 +69,7 @@ RESTIC_REPOSITORY=/mnt/backup/matcha,s3:s3.amazonaws.com/my-bucket/matcha
 ```
 
 Initialize each restic repo once before first use:
+
 ```bash
 restic -r /mnt/backup/matcha init
 ```
