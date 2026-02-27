@@ -11,14 +11,14 @@ Self-hosted Gitea running as Podman Quadlets (systemd-native), accessible exclus
 Run `just` to list all available recipes. Key ones:
 
 ```bash
-just activate       # Linux: install quadlets and start
-just deactivate     # Linux: stop and remove installed quadlet files
-just logs           # Linux: follow logs for all services
-just status         # Linux: show service status
+just activate       # Quadlets: install and start
+just deactivate     # Quadlets: stop and remove installed quadlet files
+just logs           # Quadlets: follow logs for all services
+just status         # Quadlets: show service status
 
-just up             # macOS: start via Compose
-just up-local       # macOS: start with local port access for debug (port 3000 web, 2222 SSH)
-just down           # macOS: stop via Compose
+just up             # Compose: start via Compose
+just up-local       # Compose: start with local port access for debug (port 3000 web, 2222 SSH)
+just down           # Compose: stop via Compose
 
 just create-admin <username> <email>
 

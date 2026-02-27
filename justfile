@@ -3,7 +3,7 @@ set dotenv-load := true
 default:
     @just --list
 
-# ── Linux (Quadlets) ──────────────────────────────────────────────────────────
+# ── Quadlets ──────────────────────────────────────────────────────────
 
 # Install quadlets and start
 activate:
@@ -21,7 +21,7 @@ logs:
 status:
     systemctl --user status gitea-pod.service gitea-tailscale.service gitea-server.service gitea-backup.timer
 
-# ── macOS (Compose) ───────────────────────────────────────────────────────────
+# ── Compose ───────────────────────────────────────────────────────────
 
 # Start via Compose
 up:
@@ -39,7 +39,7 @@ down:
 
 # Create an admin user: just create-admin <username> <email>
 create-admin username email:
-    ./bin/create-admin {{username}} {{email}}
+    ./bin/create-admin {{ username }} {{ email }}
 
 # ── Backup & Restore ──────────────────────────────────────────────────────────
 

@@ -42,7 +42,7 @@ RESTIC_PASSWORD=your-strong-encryption-password
 
 ## Start
 
-**macOS (or any host with Compose):**
+**Any host with Compose:**
 
 ```bash
 just up
@@ -99,8 +99,8 @@ Backups briefly stop Gitea for a consistent SQLite snapshot, then restart it aut
    ```
 5. Start:
    ```bash
-   just activate   # Linux
-   just up         # macOS
+   just activate   # Quadlets
+   just up         # Compose
    ```
 
 Gitea comes back under the same Tailscale hostname with the full database and all repositories intact.
@@ -108,10 +108,10 @@ Gitea comes back under the same Tailscale hostname with the full database and al
 ## Local / Debug access
 
 ```bash
-just up-local   # macOS: exposes port 3000 (web) and 2222 (SSH) on localhost
+just up-local   # exposes ports 3000 (web) and 2222 (SSH) on localhost
 ```
 
-On Linux, uncomment the `PublishPort` lines in [quadlet/matcha.pod](quadlet/matcha.pod) and reload:
+On Quadlets, uncomment the `PublishPort` lines in [quadlet/matcha.pod](quadlet/matcha.pod) and reload:
 
 ```bash
 systemctl --user daemon-reload && systemctl --user restart gitea-pod.service
