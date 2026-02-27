@@ -17,6 +17,10 @@ if ! grep -q '^GITEA__server__SSH_DOMAIN=' "$ENV_DIR/gitea-server.env"; then
     domain=$(grep '^GITEA__server__DOMAIN=' "$REPO/.env" | cut -d= -f2-)
     echo "GITEA__server__SSH_DOMAIN=$domain" >> "$ENV_DIR/gitea-server.env"
 fi
+# Default LFS_START_SERVER to true if not explicitly set
+if ! grep -q '^GITEA__server__LFS_START_SERVER=' "$ENV_DIR/gitea-server.env"; then
+    echo "GITEA__server__LFS_START_SERVER=true" >> "$ENV_DIR/gitea-server.env"
+fi
 grep -E '^TS_AUTHKEY=' "$REPO/.env" > "$ENV_DIR/gitea-tailscale.env"
 grep -E '^(RESTIC_|AWS_)' "$REPO/.env" > "$ENV_DIR/gitea-backup.env"
 echo "Generated per-service env files in $ENV_DIR"
