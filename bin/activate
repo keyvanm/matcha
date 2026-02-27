@@ -10,27 +10,40 @@ mkdir -p "$QUADLET_DIR" "$SYSTEMD_DIR" "$ENV_DIR"
 mkdir -p "${HOME}/.local/share/matcha/gitea"
 mkdir -p "${HOME}/.local/share/matcha/tailscale"
 
+# Helper to set a default env var if not present
+set_default() {
+    local env_file="$1"
+    local var_name="$2"
+    local default_value="$3"
+
+    if ! grep -q "^${var_name}=" "$env_file"; then
+        echo "${var_name}=${default_value}" >> "$env_file"
+    fi
+}
+
 # Generate per-service env files from .env
 grep -E '^GITEA__' "$REPO/.env" > "$ENV_DIR/gitea-server.env"
-# Default SSH_DOMAIN to DOMAIN if not explicitly set
-if ! grep -q '^GITEA__server__SSH_DOMAIN=' "$ENV_DIR/gitea-server.env"; then
-    domain=$(grep '^GITEA__server__DOMAIN=' "$REPO/.env" | cut -d= -f2-)
-    echo "GITEA__server__SSH_DOMAIN=$domain" >> "$ENV_DIR/gitea-server.env"
-fi
-# Default LFS_START_SERVER to true if not explicitly set
-if ! grep -q '^GITEA__server__LFS_START_SERVER=' "$ENV_DIR/gitea-server.env"; then
-    echo "GITEA__server__LFS_START_SERVER=true" >> "$ENV_DIR/gitea-server.env"
-fi
+
+# Apply defaults for Gitea config
+domain=$(grep '^GITEA__server__DOMAIN=' "$REPO/.env" | cut -d= -f2-)
+set_default "$ENV_DIR/gitea-server.env" "GITEA__server__SSH_DOMAIN" "$domain"
+set_default "$ENV_DIR/gitea-server.env" "GITEA__server__LFS_START_SERVER" "true"
+
 grep -E '^TS_AUTHKEY=' "$REPO/.env" > "$ENV_DIR/gitea-tailscale.env"
 grep -E '^(RESTIC_|AWS_)' "$REPO/.env" > "$ENV_DIR/gitea-backup.env"
+
 echo "Generated per-service env files in $ENV_DIR"
 
-for f in "$REPO"/quadlet/*.pod "$REPO"/quadlet/*.container; do
+# Install quadlet files
+for f in "$REPO"/quadlet/*.{pod,container}; do
+    [[ -f "$f" ]] || continue
     sed -e "s|__REPO__|$REPO|g" -e "s|__ENV_DIR__|$ENV_DIR|g" "$f" > "$QUADLET_DIR/$(basename "$f")"
     echo "Installed: $(basename "$f")"
 done
 
-for f in "$REPO"/quadlet/*.service "$REPO"/quadlet/*.timer; do
+# Install systemd service files
+for f in "$REPO"/quadlet/*.{service,timer}; do
+    [[ -f "$f" ]] || continue
     sed -e "s|__REPO__|$REPO|g" -e "s|__ENV_DIR__|$ENV_DIR|g" "$f" > "$SYSTEMD_DIR/$(basename "$f")"
     echo "Installed: $(basename "$f")"
 done
