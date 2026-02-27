@@ -12,6 +12,11 @@ mkdir -p "${HOME}/.local/share/matcha/tailscale"
 
 # Generate per-service env files from .env
 grep -E '^GITEA__' "$REPO/.env" > "$ENV_DIR/gitea-server.env"
+# Default SSH_DOMAIN to DOMAIN if not explicitly set
+if ! grep -q '^GITEA__server__SSH_DOMAIN=' "$ENV_DIR/gitea-server.env"; then
+    domain=$(grep '^GITEA__server__DOMAIN=' "$REPO/.env" | cut -d= -f2-)
+    echo "GITEA__server__SSH_DOMAIN=$domain" >> "$ENV_DIR/gitea-server.env"
+fi
 grep -E '^TS_AUTHKEY=' "$REPO/.env" > "$ENV_DIR/gitea-tailscale.env"
 grep -E '^(RESTIC_|AWS_)' "$REPO/.env" > "$ENV_DIR/gitea-backup.env"
 echo "Generated per-service env files in $ENV_DIR"

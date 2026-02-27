@@ -9,7 +9,7 @@ services:
       - GITEA__security__INSTALL_LOCK=true
       - GITEA__database__DB_TYPE=sqlite3
       - GITEA__server__DOMAIN=${GITEA__server__DOMAIN}
-      - GITEA__server__SSH_DOMAIN=${GITEA__server__SSH_DOMAIN}
+      - GITEA__server__SSH_DOMAIN=${GITEA__server__SSH_DOMAIN:-${GITEA__server__DOMAIN}}
       - GITEA__server__ROOT_URL=${GITEA__server__ROOT_URL}
       - GITEA__server__APP_NAME=${GITEA__server__APP_NAME:-Matcha}
     volumes:
