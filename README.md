@@ -1,6 +1,6 @@
 # Matcha
 
-[version::0.1.0]
+[version::0.1.1]
 
 Private Git hosting on your own infrastructure (even your laptop!), accessible only over [Tailscale](https://tailscale.com). No public internet exposure, no third-party data custody.
 
