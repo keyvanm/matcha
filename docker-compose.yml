@@ -10,6 +10,7 @@ services:
       - GITEA__database__DB_TYPE=sqlite3
       - GITEA__server__DOMAIN=${GITEA__server__DOMAIN}
       - GITEA__server__ROOT_URL=${GITEA__server__ROOT_URL}
+      - GITEA__server__APP_NAME=${GITEA__server__APP_NAME:-Matcha}
     volumes:
       - ${HOME}/.local/share/matcha/gitea:/data:Z,U
     healthcheck:
