@@ -2,7 +2,7 @@
 
 [version::0.1.0]
 
-Private Git hosting on your own infrastructure, accessible only over [Tailscale](https://tailscale.com). No public internet exposure, no third-party data custody.
+Private Git hosting on your own infrastructure (even your laptop!), accessible only over [Tailscale](https://tailscale.com). No public internet exposure, no third-party data custody.
 
 Runs [Gitea](https://gitea.com) in Podman, with Tailscale as a network sidecar that handles authentication, HTTPS (via Tailscale Serve), and SSH — zero extra infra required. Designed to be portable: snapshot with restic, restore on a new host, and everything comes back at the same Tailscale address.
 
