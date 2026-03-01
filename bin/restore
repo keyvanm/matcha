@@ -5,6 +5,21 @@ IFS=',' read -ra REPOS <<< "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY in .env}"
 REPO="${REPOS[0]// /}"
 
 echo "=== Restoring from: $REPO ==="
-# --target / because restic restores to original absolute paths (e.g. ~/.local/share/matcha/gitea/)
-echo "    Restoring to original paths under ${HOME}/.local/share/matcha/gitea/"
-restic -r "$REPO" restore latest --target /
+
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
+
+restic -r "$REPO" restore latest --target "$TMPDIR"
+
+# Find the gitea dir regardless of original home path (portable across usernames)
+RESTORED=$(find "$TMPDIR" -maxdepth 6 -type d -name "gitea" | head -1)
+if [[ -z "$RESTORED" ]]; then
+    echo "ERROR: Could not find 'gitea' directory in snapshot" >&2
+    exit 1
+fi
+
+DEST="${HOME}/.local/share/matcha/gitea"
+mkdir -p "$(dirname "$DEST")"
+echo "    Moving restored data to $DEST"
+rm -rf "$DEST"
+mv "$RESTORED" "$DEST"
