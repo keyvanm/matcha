@@ -35,6 +35,9 @@ up-local:
 down:
     podman compose down
 
+restart:
+	just down && just up
+
 # ── Admin ─────────────────────────────────────────────────────────────────────
 
 # Create an admin user: just create-admin <username> <email>
